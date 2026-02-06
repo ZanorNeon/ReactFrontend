@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-function MainArea(props) {
+function MainArea() {
     const [isExpanded, setExpanded] = useState(false);
 
     const [note, setNote] = useState({
@@ -19,14 +19,14 @@ function MainArea(props) {
         });
     }
 
-    function submitNote(event) {
-        props.onAdd(note);
-        setNote({
-            title: "",
-            content: ""
-        });
-        event.preventDefault();
-    }
+    // function submitNote(event) {
+    //     props.onAdd(note);
+    //     setNote({
+    //         title: "",
+    //         content: ""
+    //     });
+    //     event.preventDefault();
+    // }
 
     function expand() {
         setExpanded(true);
