@@ -1,11 +1,18 @@
-import React from "react";
+import { Link } from 'react-router-dom';
+
+import classes from './Header.module.css';
 
 function Header() {
     return (
-        <header>
-            <h1>
-                ToDo List Maker
+        <header className={classes.header}>
+            <h1 className={classes.logo}>
+                React Poster
             </h1>
+            <p>
+                <Link to="/create-post" className={classes.button} >
+                    New Post
+                </Link>
+            </p>
         </header>
     );
 }
