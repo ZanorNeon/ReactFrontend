@@ -1,4 +1,4 @@
-.post {
+.toDo {
     margin: 1rem 0;
     padding: 1rem;
     background-color: #ee7e7e;
@@ -7,7 +7,7 @@
     animation: animate-in 1s ease-out forwards;
 }
 
-.post a {
+.toDo a {
     text-decoration: none;
 }
 

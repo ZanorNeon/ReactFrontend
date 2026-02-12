@@ -1,11 +1,14 @@
 import React from "react";
+import classes from './Footer.module.css';
 
 function Footer() {
     return (
-        <footer>
-            <p>Your ass stinks</p>
-        </footer>
-    );
+        <footer className={classes.footer}>
+            <p className={classes.p}>
+                Your Ass stinks
+            </p>
+            </footer>
+            );
 }
 
 export default Footer;

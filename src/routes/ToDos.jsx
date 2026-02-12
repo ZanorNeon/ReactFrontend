@@ -1,13 +1,13 @@
 import { Outlet } from 'react-router-dom';
 
-import ToDoList from "../components/ToDoList";
+import ToDosList from "../components/ToDosList";
 
 function ToDos() {
     return (
         <>
             <Outlet />
             <main>
-                <ToDoList />
+                <ToDosList />
             </main>
         </>
     );
@@ -16,7 +16,7 @@ function ToDos() {
 export default ToDos;
 
 export async function loader() {
-    const response = await fetch('http://localhost:8080/todos');
+    const response = await fetch('http://localhost:8080/api/todos');
     const resData = await response.json();
-    return resData.ToDos;
+    return resData.toDos;
 }

@@ -2,12 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import {RouterProvider, createBrowserRouter} from 'react-router-dom';
 
-import ToDos, {loader as ToDosLoader} from './routes/ToDos';
+import ToDos, {loader as toDosLoader} from './routes/ToDos';
 import NewToDo, {action as newToDoAction} from './routes/NewToDo';
-import PostDetails, {loader as toDoDetailsLoader} from './routes/ToDoDetails';
+import ToDoDetails, {loader as toDoDetailsLoader} from './routes/ToDoDetails';
 import RootLayout from './routes/RootLayout';
 import './index.css';
-import Footer from "./components/Footer";
 
 const router = createBrowserRouter([
     {
@@ -17,11 +16,10 @@ const router = createBrowserRouter([
             {
                 path: '/',
                 element: <ToDos/>,
-                loader: ToDosLoader,
+                loader: toDosLoader,
                 children: [
                     {path: '/create-toDo', element: <NewToDo/>, action: newToDoAction},
-                    {path: '/:toDoId', element: <PostDetails/>, loader: toDoDetailsLoader},
-                    <Footer></Footer>
+                    {path: '/:toDoId', element: <ToDoDetails/>, loader: toDoDetailsLoader},
                 ],
             },
         ],
