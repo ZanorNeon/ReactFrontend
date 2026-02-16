@@ -1,7 +1,7 @@
 import { useLoaderData, Link } from 'react-router-dom';
 
 import Modal from '../components/Modal';
-import classes from './ToDoDetails.module.css';
+import classes from '../routes-css/ToDoDetails.module.css';
 
 function ToDoDetails() {
     const toDo = useLoaderData();

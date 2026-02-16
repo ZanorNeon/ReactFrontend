@@ -16,7 +16,8 @@ function ToDos() {
 export default ToDos;
 
 export async function loader() {
-    const response = await fetch('http://localhost:8080/api/todos');
-    const resData = await response.json();
-    return resData.toDos;
+    // const response = await fetch('http://localhost:8080/api/todos');
+    // const resData = await response.json();
+    // return resData.toDos;
+    return []
 }
