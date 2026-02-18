@@ -1,5 +1,5 @@
 import React from "react";
-import classes from './Footer.module.css';
+import classes from '../components-css/Footer.module.css';
 
 function Footer() {
     return (
@@ -7,8 +7,8 @@ function Footer() {
             <p className={classes.p}>
                 Your Ass stinks
             </p>
-            </footer>
-            );
+        </footer>
+    );
 }
 
 export default Footer;
