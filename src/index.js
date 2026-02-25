@@ -6,7 +6,7 @@ import ToDos, {loader as toDosLoader} from './routes/ToDos';
 import NewToDo, {action as newToDoAction} from './routes/NewToDo';
 import ToDoDetails, {loader as toDoDetailsLoader} from './routes/ToDoDetails';
 import RootLayout from './routes/RootLayout';
-// import '../public/index.css';
+// import '.../public/index.css';
 
 const router = createBrowserRouter([
     {

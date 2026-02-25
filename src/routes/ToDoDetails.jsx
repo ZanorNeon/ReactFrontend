@@ -1,4 +1,4 @@
-import { useLoaderData, Link } from 'react-router-dom';
+import {useLoaderData, Link} from 'react-router-dom';
 
 import Modal from '../components/Modal';
 import classes from '../routes-css/ToDoDetails.module.css';
@@ -13,7 +13,7 @@ function ToDoDetails() {
                     <h1>Could not find the To Do</h1>
                     <p>Unfortunately, the requested To Do could not be found.</p>
                     <p>
-                        <Link to=".." className={classes.btn}>
+                        <Link to=".." className={classes.buttons}>
                             Okay
                         </Link>
                     </p>
@@ -33,7 +33,7 @@ function ToDoDetails() {
 export default ToDoDetails;
 
 export async function loader({params}) {
-    const response = await fetch('http://localhost:8080/todos/' + params.toDoId);
-    const resData = await response.json();
-    return resData.post;
+    // const response = await fetch('http://localhost:8080/api/todos/' + params.PostId);
+    // const resData = await response.json();
+    // return resData.post;
 }
