@@ -9,7 +9,7 @@ function NewToDo() {
             <Form method='post' className={classes.form}>
                 <p>
                     <label htmlFor="body">Text</label>
-                    <textarea id="body" name="body" required rows={2} />
+                    <textarea id="body" name="text" required rows={2} />
                 </p>
                 <p className={classes.actions}>
                     <Link to=".." type="button">

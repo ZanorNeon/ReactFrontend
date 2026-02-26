@@ -9,7 +9,7 @@ function Header() {
                 ToDo List maker
             </h1>
             <p>
-                <Link to="/create-post" className={classes.button} >
+                <Link to="/todo/create" className={classes.button} >
                     New Post
                 </Link>
             </p>

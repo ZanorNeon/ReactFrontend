@@ -1,4 +1,4 @@
-import {useLoaderData, Link} from 'react-router-dom';
+import {Link, useLoaderData} from 'react-router-dom';
 
 import Modal from '../components/Modal';
 import classes from '../routes-css/ToDoDetails.module.css';
@@ -33,7 +33,7 @@ function ToDoDetails() {
 export default ToDoDetails;
 
 export async function loader({params}) {
-    // const response = await fetch('http://localhost:8080/api/todos/' + params.PostId);
-    // const resData = await response.json();
-    // return resData.post;
+    const { toDoId } = params;
+    const response = await fetch('http://localhost:8080/api/todos/' + toDoId);
+    return await response.json()
 }
