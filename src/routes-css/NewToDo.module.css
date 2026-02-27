@@ -19,7 +19,7 @@
     padding: 0.5rem;
     border-radius: 6px;
     border: none;
-    background-color: #c4a9e4;
+    background-color: #ff9b51;
     color: #28262c;
 }
 
@@ -37,7 +37,7 @@
     border: none;
     border-radius: 4px;
     background-color: #bfc9d1;
-    color: #e5d5f7;
+    color: #ffffff;
 }
 
 .actions button:hover {
@@ -47,9 +47,9 @@
 .actions a {
     background-color: transparent;
     text-decoration: none;
-    color: #e5d5f7;
+    color: #ffffff;
 }
 
 .actions a:hover {
-    color: #d1bee6;
+    color: #ffffff;
 }
