@@ -3,15 +3,16 @@ import {useLoaderData} from 'react-router-dom';
 import ToDo from './ToDo';
 import classes from '../components-css/ToDosList.module.css';
 
+
 function ToDosList() {
-    const toDos = useLoaderData();
+    const toDos = useLoaderData() ?? [];
 
     return (
         <>
             {toDos.length > 0 && (
                 <ul className={classes.toDosList}>
                     {toDos.map((toDo) => (
-                        <ToDo key={toDo.id} body={toDo.text}/>
+                        <ToDo key={toDo.id} text={toDo.text}/>
                     ))}
                 </ul>
             )}
