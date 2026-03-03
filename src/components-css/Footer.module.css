@@ -1,4 +1,6 @@
 .footer {
+    font-family: Snell Roundhand, cursive;
+    font-style: oblique;
     position: absolute;
     text-align: center;
     bottom: 0;
@@ -7,5 +9,5 @@
 }
 
 .p {
-    color: #ccc;
+    color: #bfc9d1;
 }
