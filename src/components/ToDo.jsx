@@ -9,7 +9,7 @@ function ToDo({id, text}) {
             <Link to={id}>
                 <p className={toDoClasses.text}>{text}</p>
             </Link>
-            <Link to={`/delete`} className={deleteClasses.deleteButton}>
+            <Link to={id} className={deleteClasses.deleteButton}>
                 Delete
             </Link>
         </li>

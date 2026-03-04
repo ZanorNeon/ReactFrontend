@@ -1,7 +1,8 @@
 import React from 'react';
 import classes from '../routes-css/ToDoDelete.module.css'
 
-function ToDoDelete({toDoId, onDeleted}) {
+export async function ToDoDelete({toDoId, onDeleted}) {
+
     const handleDelete = async () => {
         try {
             await fetch('http://localhost:8080/api/todos/' + toDoId, {
