@@ -1,7 +1,9 @@
 import React from 'react';
 import classes from '../routes-css/ToDoDelete.module.css'
 
-export async function ToDoDelete({toDoId, onDeleted}) {
+export async function ToDoDelete(onDeleted, params) {
+
+    const {toDoId} = params
 
     const handleDelete = async () => {
         try {
