@@ -1,6 +1,4 @@
-import { Link } from 'react-router-dom';
-
-import classes from '../components-css/Header.module.css';
+import classes from './Header.module.css';
 
 function Header() {
     return (
@@ -9,9 +7,7 @@ function Header() {
                 ToDo List maker
             </h1>
             <p>
-                <Link to="/todo/create" className={classes.button} >
-                    New Post
-                </Link>
+                <button className={classes.button}>New Post</button>
             </p>
         </header>
     );

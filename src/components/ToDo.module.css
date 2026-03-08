@@ -29,3 +29,19 @@
         transform: translateY(0);
     }
 }
+
+.deleteButton {
+    display: inline-flex;
+    margin-right: 1rem;
+    padding: 0.3rem 0.8rem;
+    border: none;
+    border-radius: 6px;
+    background-color: #ff9b51;
+    color: white;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.deleteButton:hover {
+    background-color: #b56e39;
+}

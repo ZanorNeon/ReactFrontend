@@ -1,22 +1,21 @@
-import {useLoaderData} from 'react-router-dom';
-
 import ToDo from './ToDo';
-import classes from '../components-css/ToDosList.module.css';
+import classes from './ToDosList.module.css';
 
 
-function ToDosList() {
-    const toDos = useLoaderData() ?? [];
+function ToDosList(params) {
+    const todos = params.todos;
+    const onDelete = params.onDelete;
 
     return (
         <>
-            {toDos.length > 0 && (
+            {todos.length > 0 && (
                 <ul className={classes.toDosList}>
-                    {toDos.map((toDo) => (
-                        <ToDo key={toDo.id} text={toDo.text}/>
+                    {todos.map((toDo) => (
+                        <ToDo key={toDo.id} id={toDo.id} text={toDo.text} onDelete={onDelete}/>
                     ))}
                 </ul>
             )}
-            {toDos.length === 0 && (
+            {todos.length === 0 && (
                 <div style={{textAlign: 'center', color: 'white'}}>
                     <h2>There are no To Dos yet.</h2>
                 </div>
