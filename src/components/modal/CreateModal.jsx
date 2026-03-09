@@ -1,39 +1,38 @@
-import {Link, redirect} from 'react-router-dom';
-
+import {Link, useNavigate} from 'react-router-dom';
 import classes from './CreateModal.module.css';
 
 function CreateModal() {
+    const navigate = useNavigate();
 
-    const handleCreate = (formData) => {
+    const handleCreate = async (formData) => {
         const postData = Object.fromEntries(formData);
-        fetch('http://localhost:8080/api/todos', {
+
+        await fetch('http://localhost:8080/api/todos', {
             method: 'POST',
             body: JSON.stringify(postData),
             headers: {
                 'Content-Type': 'application/json',
             },
-        }).then(r => {});
+        });
 
-        return redirect('/');
+        navigate('/');
     };
 
     return (
-        <>
-            <dialog open className={classes.modal}>
-                <form className={classes.form} action={handleCreate}>
-                    <p>
-                        <label htmlFor="body">Text</label>
-                        <textarea id="body" name="text" required rows={2} />
-                    </p>
-                    <p className={classes.actions}>
-                        <Link to=".." type="button">
-                            Cancel
-                        </Link>
-                        <button>Submit</button>
-                    </p>
-                </form>
-            </dialog>
-        </>
+        <dialog open className={classes.modal}>
+            <form className={classes.form} action={handleCreate}>
+                <p>
+                    <label htmlFor="body">Text</label>
+                    <textarea id="body" name="text" required rows={2}/>
+                </p>
+                <p className={classes.actions}>
+                    <Link to=".." type="button">
+                        Cancel
+                    </Link>
+                    <button>Submit</button>
+                </p>
+            </form>
+        </dialog>
     );
 }
 
