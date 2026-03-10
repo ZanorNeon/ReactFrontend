@@ -1,8 +1,6 @@
-import {Link, useNavigate} from 'react-router-dom';
 import classes from './CreateModal.module.css';
 
-function CreateModal() {
-    const navigate = useNavigate();
+function CreateModal({ onClose }) {
 
     const handleCreate = async (formData) => {
         const postData = Object.fromEntries(formData);
@@ -15,7 +13,7 @@ function CreateModal() {
             },
         });
 
-        navigate('/');
+        onClose();
     };
 
     return (
@@ -25,11 +23,15 @@ function CreateModal() {
                     <label htmlFor="body">Text</label>
                     <textarea id="body" name="text" required rows={2}/>
                 </p>
+
                 <p className={classes.actions}>
-                    <Link to=".." type="button">
+                    <button type="button" onClick={onClose}>
                         Cancel
-                    </Link>
-                    <button>Submit</button>
+                    </button>
+
+                    <button type="submit">
+                        Submit
+                    </button>
                 </p>
             </form>
         </dialog>
