@@ -1,6 +1,6 @@
 import classes from './CreateModal.module.css';
 
-function CreateModal({ onClose }) {
+function CreateModal({onClose, onCreated}) {
 
     const handleCreate = async (formData) => {
         const postData = Object.fromEntries(formData);
@@ -12,7 +12,7 @@ function CreateModal({ onClose }) {
                 'Content-Type': 'application/json',
             },
         });
-
+        onCreated();
         onClose();
     };
 
