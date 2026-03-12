@@ -1,6 +1,6 @@
 import classes from './Header.module.css';
 
-function Header({ onCreatePost }) {
+function Header({onCreatePost}) {
     return (
         <header className={classes.header}>
             <h1 className={classes.logo}>
