@@ -1,23 +1,14 @@
-import { createContext, useState, useEffect, useContext } from 'react';
+import {createContext, useState, useEffect, useContext} from 'react';
 import api from 'axios';
 
 const AuthContext = createContext(null);
 
-export const AuthProvider = ({ children }) => {
+export const AuthProvider = ({children}) => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        api.get('/login')
-            .then((response) => {
-                setUser(response.data);
-            })
-            .catch(() => {
-                setUser(null);
-            })
-            .finally(() => {
-                setLoading(false);
-            });
+        setLoading(false);
     }, []);
 
     const login = async (username, password) => {
@@ -25,11 +16,11 @@ export const AuthProvider = ({ children }) => {
 
         try {
             await api.post('/login', {}, {
-                headers: { 'Authorization': basicAuthHeader }
+                headers: {'Authorization': basicAuthHeader}
             });
-            const userResponse = await api.get('/login');
-            setUser(userResponse.data);
-            return { success: true };
+            setUser({username: username});
+
+            return {success: true};
         } catch (error) {
             return {
                 success: false,
@@ -46,9 +37,10 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ user, loading, login, logout }}>
+        <AuthContext.Provider value={{user, loading, login, logout}}>
             {children}
         </AuthContext.Provider>
     );
 };
+
 export const useAuth = () => useContext(AuthContext);

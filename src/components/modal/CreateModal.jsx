@@ -1,40 +1,48 @@
-import classes from './CreateModal.module.css';
+import {useState} from 'react';
 
 function CreateModal({onClose, onCreated}) {
+    const [title, setTitle] = useState('');
+    const [description, setDescription] = useState('');
 
-    const handleCreate = async (formData) => {
-        const postData = Object.fromEntries(formData);
+    const handleSubmit = (e) => {
+        e.preventDefault();
 
-        await fetch('http://localhost:8080/api/todos', {
+        fetch('http://localhost:8080/api/todos', {
             method: 'POST',
-            body: JSON.stringify(postData),
             headers: {
-                'Content-Type': 'application/json',
+                'Content-Type': 'application/json'
             },
-        });
-        onCreated();
-        onClose();
+            credentials: 'include',
+            body: JSON.stringify({title, description})
+        })
+            .then(res => {
+                if (res.ok) {
+                    onCreated();
+                    onClose();
+                } else {
+                    console.error("Failed to create todo item");
+                }
+            })
+            .catch(err => console.error("Error creating todo:", err));
     };
 
     return (
-        <dialog open className={classes.modal}>
-            <form className={classes.form} action={handleCreate}>
-                <p>
-                    <label htmlFor="body">Text</label>
-                    <textarea id="body" name="text" required rows={2}/>
-                </p>
-
-                <p className={classes.actions}>
-                    <button type="button" onClick={onClose}>
-                        Cancel
-                    </button>
-
-                    <button type="submit">
-                        Submit
-                    </button>
-                </p>
+        <div className="modal-backdrop">
+            <form onSubmit={handleSubmit} className="modal-content">
+                <h2>Create New Task</h2>
+                <div>
+                    <label>Title: </label>
+                    <input
+                        type="text"
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                        required
+                    />
+                </div>
+                <button type="submit" style={{marginTop: '15px'}}>Save Todo</button>
+                <button type="button" onClick={onClose}>Cancel</button>
             </form>
-        </dialog>
+        </div>
     );
 }
 
