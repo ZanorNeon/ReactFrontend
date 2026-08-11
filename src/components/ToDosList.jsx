@@ -1,7 +1,6 @@
 import ToDo from './ToDo';
 import classes from './ToDosList.module.css';
 
-
 function ToDosList(params) {
     const todos = params.todos;
     const onDelete = params.onDelete;
