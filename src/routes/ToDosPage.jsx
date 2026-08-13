@@ -78,22 +78,10 @@ function ToDosPage() {
     return (
         <>
             <main style={{ padding: '20px' }}>
-                <div style={{ marginBottom: '15px' }}>
-                    <input
-                        type="file"
-                        multiple
-                        ref={fileInputRef}
-                        onChange={handleFileChange}
-                        style={{ display: 'none' }}
-                    />
-                    <button
-                        onClick={triggerFileSelect}
-                        disabled={isUploading}
-                        className="btn-upload-files"
-                    >
-                        {isUploading ? 'Loading' : '📎 Upload files'}
-                    </button>
-                </div>
+                <ToDosList todos={todos} onDelete={handleDelete}/>
+
+                <hr style={{ border: '0', borderTop: '1px solid rgba(255,255,255,0.2)', margin: '25px 0' }} />
+
                 <div className="global-files-section">
                     <h3 className="global-files-title">Uploaded files:</h3>
                     {files && files.length > 0 ? (
@@ -116,8 +104,22 @@ function ToDosPage() {
                         <p className="global-files-empty">There is no files yet</p>
                     )}
                 </div>
-                <hr style={{ border: '0', borderTop: '1px solid rgba(255,255,255,0.2)', margin: '25px 0' }} />
-                <ToDosList todos={todos} onDelete={handleDelete}/>
+                <div style={{ marginTop: '15px' }}>
+                    <input
+                        type="file"
+                        multiple
+                        ref={fileInputRef}
+                        onChange={handleFileChange}
+                        style={{ display: 'none' }}
+                    />
+                    <button
+                        onClick={triggerFileSelect}
+                        disabled={isUploading}
+                        className="btn-upload-files"
+                    >
+                        {isUploading ? 'Loading' : '📎 Upload files'}
+                    </button>
+                </div>
             </main>
         </>
     );
