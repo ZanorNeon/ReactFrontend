@@ -6,8 +6,7 @@ function ToDosPage() {
     const [todos, setTodos] = useState([]);
     const [files, setFiles] = useState([]);
     const [isUploading, setIsUploading] = useState(false);
-
-    const fileInputRef = useRef(null);
+    const fileInputRefs = useRef({});
     const { reloadKey } = useOutletContext();
 
     const loadData = () => {
@@ -28,6 +27,18 @@ function ToDosPage() {
 
     useEffect(() => {
         loadData();
+        const intervalId = setInterval(() => {
+            fetch('http://localhost:8080/api/files', { credentials: 'include' })
+                .then(res => {
+                    if (res.ok) return res.json();
+                    throw new Error("Failed to fetch files");
+                })
+                .then(filesData => {
+                    setFiles(filesData);
+                })
+                .catch(err => console.error("Polling files error:", err));
+        }, 3000);
+        return () => clearInterval(intervalId);
     }, [reloadKey]);
 
     const handleDelete = (id) => {
@@ -38,10 +49,12 @@ function ToDosPage() {
             .then(res => {
                 if (res.ok) {
                     setTodos(prevTodos => prevTodos.filter(todo => todo.id !== id));
+                    setFiles(prevFiles => prevFiles.filter(file => file.todoId !== id));
                 }
             });
     };
-    const handleFileChange = (event) => {
+
+    const handleFileChange = (event, todoId) => {
         const selectedFiles = event.target.files;
         if (selectedFiles.length === 0) return;
 
@@ -51,6 +64,7 @@ function ToDosPage() {
         for (let i = 0; i < selectedFiles.length; i++) {
             formData.append('files', selectedFiles[i]);
         }
+        formData.append('todoId', todoId);
 
         fetch('http://localhost:8080/api/files', {
             method: 'POST',
@@ -60,68 +74,32 @@ function ToDosPage() {
             .then(res => {
                 if (!res.ok) throw new Error("Upload failed");
                 loadData();
-                if (fileInputRef.current) fileInputRef.current.value = "";
+                if (fileInputRefs.current[todoId]) {
+                    fileInputRefs.current[todoId].value = "";
+                }
             })
             .catch(err => console.error("Upload error:", err))
             .finally(() => setIsUploading(false));
     };
 
-    const triggerFileSelect = () => {
-        if (fileInputRef.current) {
-            fileInputRef.current.click();
+    const triggerFileSelect = (todoId) => {
+        if (fileInputRefs.current[todoId]) {
+            fileInputRefs.current[todoId].click();
         }
-    };
-    const getFilenameFromUrl = (url) => {
-        return url.substring(url.lastIndexOf('/') + 1);
     };
 
     return (
-        <>
-            <main style={{ padding: '20px' }}>
-                <ToDosList todos={todos} onDelete={handleDelete}/>
-
-                <hr style={{ border: '0', borderTop: '1px solid rgba(255,255,255,0.2)', margin: '25px 0' }} />
-
-                <div className="global-files-section">
-                    <h3 className="global-files-title">Uploaded files:</h3>
-                    {files && files.length > 0 ? (
-                        <ul className="global-files-list">
-                            {files.map((url, idx) => (
-                                <li key={idx} className="global-file-item">
-                                    <a
-                                        href={url}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        download
-                                        className="global-file-link"
-                                    >
-                                        📄 {getFilenameFromUrl(url)}
-                                    </a>
-                                </li>
-                            ))}
-                        </ul>
-                    ) : (
-                        <p className="global-files-empty">There is no files yet</p>
-                    )}
-                </div>
-                <div style={{ marginTop: '15px' }}>
-                    <input
-                        type="file"
-                        multiple
-                        ref={fileInputRef}
-                        onChange={handleFileChange}
-                        style={{ display: 'none' }}
-                    />
-                    <button
-                        onClick={triggerFileSelect}
-                        disabled={isUploading}
-                        className="btn-upload-files"
-                    >
-                        {isUploading ? 'Loading' : '📎 Upload files'}
-                    </button>
-                </div>
-            </main>
-        </>
+        <main className="todos-page-main">
+            <ToDosList
+                todos={todos}
+                files={files}
+                onDelete={handleDelete}
+                onUploadTrigger={triggerFileSelect}
+                isUploading={isUploading}
+                fileInputRefs={fileInputRefs}
+                handleFileChange={handleFileChange}
+            />
+        </main>
     );
 }
 
