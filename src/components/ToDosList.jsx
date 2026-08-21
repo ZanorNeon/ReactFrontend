@@ -14,19 +14,23 @@ function ToDosList(params) {
         <>
             {todos.length > 0 && (
                 <ul className={classes.toDosList}>
-                    {todos.map((toDo) => (
-                        <ToDo
-                            key={toDo.id}
-                            id={toDo.id}
-                            text={toDo.text}
-                            files={files}
-                            onDelete={onDelete}
-                            onUploadTrigger={onUploadTrigger}
-                            isUploading={isUploading}
-                            fileInputRefs={fileInputRefs}
-                            handleFileChange={handleFileChange}
-                        />
-                    ))}
+                    {todos.map((toDo) => {
+                        const todoFiles = files.filter(file => file.todoId === toDo.id);
+
+                        return (
+                            <ToDo
+                                key={toDo.id}
+                                id={toDo.id}
+                                text={toDo.text}
+                                files={todoFiles}
+                                onDelete={onDelete}
+                                onUploadTrigger={onUploadTrigger}
+                                isUploading={isUploading}
+                                fileInputRefs={fileInputRefs}
+                                handleFileChange={handleFileChange}
+                            />
+                        );
+                    })}
                 </ul>
             )}
 
