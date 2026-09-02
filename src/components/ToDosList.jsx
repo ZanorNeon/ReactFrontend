@@ -1,43 +1,34 @@
 import ToDo from './ToDo';
 import classes from './ToDosList.module.css';
 
-function ToDosList(params) {
-    const todos = params.todos;
-    const files = params.files;
-    const onDelete = params.onDelete;
-    const onUploadTrigger = params.onUploadTrigger;
-    const isUploading = params.isUploading;
-    const fileInputRefs = params.fileInputRefs;
-    const handleFileChange = params.handleFileChange;
-
+function ToDosList({
+                       todos,
+                       onDelete,
+                       onDeleteFile,
+                       onUploadTrigger,
+                       isUploading,
+                       fileInputRefs,
+                       handleFileChange
+                   }) {
     return (
         <>
             {todos.length > 0 && (
                 <ul className={classes.toDosList}>
-                    {todos.map((toDo) => {
-                        const todoFiles = files.filter(file => file.todoId === toDo.id);
-
-                        return (
-                            <ToDo
-                                key={toDo.id}
-                                id={toDo.id}
-                                text={toDo.text}
-                                files={todoFiles}
-                                onDelete={onDelete}
-                                onUploadTrigger={onUploadTrigger}
-                                isUploading={isUploading}
-                                fileInputRefs={fileInputRefs}
-                                handleFileChange={handleFileChange}
-                            />
-                        );
-                    })}
+                    {todos.map((toDo) => (
+                        <ToDo
+                            key={toDo.id}
+                            id={toDo.id}
+                            text={toDo.text}
+                            files={toDo.files || []}
+                            onDelete={onDelete}
+                            onDeleteFile={onDeleteFile}
+                            onUploadTrigger={onUploadTrigger}
+                            isUploading={isUploading}
+                            fileInputRefs={fileInputRefs}
+                            handleFileChange={handleFileChange}
+                        />
+                    ))}
                 </ul>
-            )}
-
-            {todos.length === 0 && (
-                <div style={{ textAlign: 'center', color: 'white' }}>
-                    <h2>There are no To Dos yet.</h2>
-                </div>
             )}
         </>
     );

@@ -5,6 +5,7 @@ function ToDo({
                   text,
                   files = [],
                   onDelete,
+                  onDeleteFile,
                   onUploadTrigger,
                   isUploading,
                   fileInputRefs,
@@ -24,30 +25,37 @@ function ToDo({
                         Attachments
                     </h4>
 
-                    <div className={toDoClasses.files}>
+                    <div className={toDoClasses.filesContainer}>
                         {files.map((file) => (
-                            <a
-                                key={file.id}
-                                href={file.url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                download
-                                className={toDoClasses.file}
-                            >
-                                📄 {file.filename}
-                            </a>
+                            <div key={file.id} className={toDoClasses.fileRow}>
+                                <a
+                                    href={`http://localhost:8080/api/files/id/${file.id}`}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    download
+                                    className={toDoClasses.fileLink}
+                                >
+                                    📄 {file.filename}
+                                </a>
+                                <button
+                                    onClick={() => onDeleteFile(file.id, id)}
+                                    className={toDoClasses.inlineDeleteFileButton}
+                                    title="Delete this file"
+                                >
+                                    ×
+                                </button>
+                            </div>
                         ))}
                     </div>
                 </>
             )}
 
             <div className={toDoClasses.buttonGroup}>
-
                 <button
                     className={toDoClasses.deleteButton}
                     onClick={() => onDelete(id)}
                 >
-                    Delete
+                    Delete Todo
                 </button>
 
                 <input
@@ -69,9 +77,7 @@ function ToDo({
                 >
                     {isUploading ? 'Uploading...' : 'Upload'}
                 </button>
-
             </div>
-
         </li>
     );
 }

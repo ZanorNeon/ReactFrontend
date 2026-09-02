@@ -1,44 +1,27 @@
 import ToDosList from "../components/ToDosList";
-import { useOutletContext } from "react-router-dom";
-import { useEffect, useState, useRef } from "react";
+import {useOutletContext} from "react-router-dom";
+import {useEffect, useState, useRef} from "react";
 
 function ToDosPage() {
     const [todos, setTodos] = useState([]);
-    const [files, setFiles] = useState([]);
     const [isUploading, setIsUploading] = useState(false);
     const fileInputRefs = useRef({});
-    const { reloadKey } = useOutletContext();
+    const {reloadKey} = useOutletContext();
 
     const loadData = () => {
-        Promise.all([
-            fetch('http://localhost:8080/api/todos', { credentials: 'include' }),
-            fetch('http://localhost:8080/api/files', { credentials: 'include' })
-        ])
-            .then(([todosRes, filesRes]) => {
-                if (!todosRes.ok || !filesRes.ok) throw new Error("Unauthorized or server error");
-                return Promise.all([todosRes.json(), filesRes.json()]);
+        fetch('http://localhost:8080/api/todos', {credentials: 'include'})
+            .then(res => {
+                if (!res.ok) throw new Error("Unauthorized or server error");
+                return res.json();
             })
-            .then(([todosData, filesData]) => {
+            .then(todosData => {
                 setTodos(todosData);
-                setFiles(filesData);
             })
             .catch(err => console.error("Fetch error:", err));
     };
 
     useEffect(() => {
         loadData();
-        const intervalId = setInterval(() => {
-            fetch('http://localhost:8080/api/files', { credentials: 'include' })
-                .then(res => {
-                    if (res.ok) return res.json();
-                    throw new Error("Failed to fetch files");
-                })
-                .then(filesData => {
-                    setFiles(filesData);
-                })
-                .catch(err => console.error("Polling files error:", err));
-        }, 3000);
-        return () => clearInterval(intervalId);
     }, [reloadKey]);
 
     const handleDelete = (id) => {
@@ -49,9 +32,9 @@ function ToDosPage() {
             .then(res => {
                 if (res.ok) {
                     setTodos(prevTodos => prevTodos.filter(todo => todo.id !== id));
-                    setFiles(prevFiles => prevFiles.filter(file => file.todoId !== id));
                 }
-            });
+            })
+            .catch(err => console.error("Delete error:", err));
     };
 
     const handleFileChange = (event, todoId) => {
@@ -88,12 +71,33 @@ function ToDosPage() {
         }
     };
 
+    const handleDeleteFile = (fileId, todoId) => {
+        fetch(`http://localhost:8080/api/files/id/${fileId}`, {
+            method: 'DELETE',
+            credentials: 'include'
+        })
+            .then(res => {
+                if (res.ok) {
+                    setTodos(prevTodos => prevTodos.map(todo => {
+                        if (todo.id === todoId) {
+                            return {
+                                ...todo,
+                                files: todo.files.filter(file => file.id !== fileId)
+                            };
+                        }
+                        return todo;
+                    }));
+                }
+            })
+            .catch(err => console.error("Error deleting file:", err));
+    };
+
     return (
         <main className="todos-page-main">
             <ToDosList
                 todos={todos}
-                files={files}
                 onDelete={handleDelete}
+                onDeleteFile={handleDeleteFile}
                 onUploadTrigger={triggerFileSelect}
                 isUploading={isUploading}
                 fileInputRefs={fileInputRefs}
